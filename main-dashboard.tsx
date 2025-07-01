@@ -1,33 +1,63 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { ArrowRight, Send, User, Bot } from "lucide-react"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { ArrowRight, Send, User, Bot } from "lucide-react";
 
 // Mock chat data
 const mockChatMessages = [
-  { id: 1, type: "user", message: "안녕하세요! 오늘 날씨는 어떤가요?", timestamp: "10:30" },
+  {
+    id: 1,
+    type: "user",
+    message: "안녕하세요! 오늘 날씨는 어떤가요?",
+    timestamp: "10:30",
+  },
   {
     id: 2,
     type: "bot",
-    message: "안녕하세요! 오늘은 맑고 화창한 날씨입니다. 기온은 22도 정도로 쾌적합니다.",
+    message:
+      "안녕하세요! 오늘은 맑고 화창한 날씨입니다. 기온은 22도 정도로 쾌적합니다.",
     timestamp: "10:31",
   },
-  { id: 3, type: "user", message: "좋네요! 산책하기 좋은 날씨군요.", timestamp: "10:32" },
+  {
+    id: 3,
+    type: "user",
+    message: "좋네요! 산책하기 좋은 날씨군요.",
+    timestamp: "10:32",
+  },
   {
     id: 4,
     type: "bot",
-    message: "네, 맞습니다! 오늘 같은 날씨에는 야외 활동을 하시기에 정말 좋을 것 같아요.",
+    message:
+      "네, 맞습니다! 오늘 같은 날씨에는 야외 활동을 하시기에 정말 좋을 것 같아요.",
     timestamp: "10:33",
   },
-]
+  {
+    id: 5,
+    type: "user",
+    message: "내일 날씨는 어떤가요?",
+    timestamp: "10:34",
+  },
+  {
+    id: 6,
+    type: "user",
+    message: "비가 많이 내린다는 말이 있는데 어떤가요?",
+    timestamp: "10:35",
+  },
+  {
+    id: 7,
+    type: "bot",
+    message: "내일은 비가 많이 내릴 것 같아요.",
+    timestamp: "10:36",
+  },
+];
 
 interface SectionData {
-  title: string
-  content: string
-  loading: boolean
+  title: string;
+  content: string;
+  loading: boolean;
 }
 
 export default function MainDashboard() {
@@ -35,13 +65,13 @@ export default function MainDashboard() {
     section2: { title: "데이터 분석", content: "", loading: false },
     section3: { title: "시스템 상태", content: "", loading: false },
     section4: { title: "리포트", content: "", loading: false },
-  })
+  });
 
   const handleApiCall = async (sectionKey: string) => {
     setSections((prev) => ({
       ...prev,
       [sectionKey]: { ...prev[sectionKey], loading: true },
-    }))
+    }));
 
     // Simulate API call
     setTimeout(() => {
@@ -88,7 +118,7 @@ export default function MainDashboard() {
 - 신규 기능 3개 출시
 - 사용자 만족도 개선
 - 마케팅 캠페인 확대`,
-      }
+      };
 
       setSections((prev) => ({
         ...prev,
@@ -97,51 +127,68 @@ export default function MainDashboard() {
           content: mockResponses[sectionKey as keyof typeof mockResponses],
           loading: false,
         },
-      }))
-    }, 1500)
-  }
+      }));
+    }, 1500);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-slate-900 mb-2">대시보드</h1>
-          <p className="text-slate-600">실시간 데이터와 시스템 현황을 확인하세요</p>
+          <p className="text-slate-600">
+            실시간 데이터와 시스템 현황을 확인하세요
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-200px)]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 ">
           {/* Chat Section - Top Left */}
           <Card className="flex flex-col shadow-lg border-0 bg-white/80 backdrop-blur-sm">
             <CardHeader className="flex flex-row items-center justify-between pb-3">
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                <h2 className="text-lg font-semibold text-slate-900">실시간 채팅</h2>
+                <h2 className="text-lg font-semibold text-slate-900">
+                  실시간 채팅
+                </h2>
               </div>
               <Button
                 size="sm"
                 variant="ghost"
-                className="h-8 w-8 p-0 hover:bg-slate-100"
+                className="h-auto w-auto p-2 hover:bg-slate-100"
                 onClick={() => console.log("Chat API call")}
               >
+                채팅 불러오기
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col p-0">
-              <ScrollArea className="flex-1 px-4">
+              <ScrollArea className="flex-1 px-4 overflow-y-auto max-h-[400px]">
                 <div className="space-y-4 pb-4">
                   {mockChatMessages.map((msg) => (
                     <div
                       key={msg.id}
-                      className={`flex items-start gap-3 ${msg.type === "user" ? "flex-row-reverse" : ""}`}
+                      className={`flex items-start gap-3 ${
+                        msg.type === "user" ? "flex-row-reverse" : ""
+                      }`}
                     >
                       <div
                         className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                          msg.type === "user" ? "bg-blue-500 text-white" : "bg-slate-200 text-slate-600"
+                          msg.type === "user"
+                            ? "bg-blue-500 text-white"
+                            : "bg-slate-200 text-slate-600"
                         }`}
                       >
-                        {msg.type === "user" ? <User className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
+                        {msg.type === "user" ? (
+                          <User className="h-4 w-4" />
+                        ) : (
+                          <Bot className="h-4 w-4" />
+                        )}
                       </div>
-                      <div className={`max-w-[80%] ${msg.type === "user" ? "text-right" : ""}`}>
+                      <div
+                        className={`max-w-[80%] ${
+                          msg.type === "user" ? "text-right" : ""
+                        }`}
+                      >
                         <div
                           className={`inline-block p-3 rounded-2xl ${
                             msg.type === "user"
@@ -151,13 +198,15 @@ export default function MainDashboard() {
                         >
                           <p className="text-sm">{msg.message}</p>
                         </div>
-                        <p className="text-xs text-slate-500 mt-1 px-1">{msg.timestamp}</p>
+                        <p className="text-xs text-slate-500 mt-1 px-1">
+                          {msg.timestamp}
+                        </p>
                       </div>
                     </div>
                   ))}
                 </div>
               </ScrollArea>
-              <div className="p-4 border-t bg-slate-50/50">
+              {/* <div className="p-4 border-t bg-slate-50/50">
                 <div className="flex gap-2">
                   <input
                     type="text"
@@ -168,25 +217,31 @@ export default function MainDashboard() {
                     <Send className="h-4 w-4" />
                   </Button>
                 </div>
-              </div>
+              </div> */}
             </CardContent>
           </Card>
 
           {/* Data Section - Top Right */}
           <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
             <CardHeader className="flex flex-row items-center justify-between">
-              <h2 className="text-lg font-semibold text-slate-900">{sections.section2.title}</h2>
+              <h2 className="text-lg font-semibold text-slate-900">
+                {sections.section2.title}
+              </h2>
               <Button
                 size="sm"
                 variant="ghost"
-                className="h-8 w-8 p-0 hover:bg-slate-100"
+                className="h-auto w-auto p-2 hover:bg-slate-100"
                 onClick={() => handleApiCall("section2")}
                 disabled={sections.section2.loading}
               >
                 {sections.section2.loading ? (
                   <div className="w-4 h-4 border-2 border-slate-300 border-t-slate-600 rounded-full animate-spin" />
                 ) : (
-                  <ArrowRight className="h-4 w-4" />
+                  //
+                  <>
+                    응답 가져오기
+                    <ArrowRight className="h-4 w-4" />
+                  </>
                 )}
               </Button>
             </CardHeader>
@@ -213,18 +268,23 @@ export default function MainDashboard() {
           {/* System Status Section - Bottom Left */}
           <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
             <CardHeader className="flex flex-row items-center justify-between">
-              <h2 className="text-lg font-semibold text-slate-900">{sections.section3.title}</h2>
+              <h2 className="text-lg font-semibold text-slate-900">
+                {sections.section3.title}
+              </h2>
               <Button
                 size="sm"
                 variant="ghost"
-                className="h-8 w-8 p-0 hover:bg-slate-100"
+                className="h-auto w-auto p-2 hover:bg-slate-100"
                 onClick={() => handleApiCall("section3")}
                 disabled={sections.section3.loading}
               >
                 {sections.section3.loading ? (
                   <div className="w-4 h-4 border-2 border-slate-300 border-t-slate-600 rounded-full animate-spin" />
                 ) : (
-                  <ArrowRight className="h-4 w-4" />
+                  <>
+                    응답 가져오기
+                    <ArrowRight className="h-4 w-4" />
+                  </>
                 )}
               </Button>
             </CardHeader>
@@ -251,18 +311,23 @@ export default function MainDashboard() {
           {/* Report Section - Bottom Right */}
           <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
             <CardHeader className="flex flex-row items-center justify-between">
-              <h2 className="text-lg font-semibold text-slate-900">{sections.section4.title}</h2>
+              <h2 className="text-lg font-semibold text-slate-900">
+                {sections.section4.title}
+              </h2>
               <Button
                 size="sm"
                 variant="ghost"
-                className="h-8 w-8 p-0 hover:bg-slate-100"
+                className="h-auto w-auto p-2 hover:bg-slate-100"
                 onClick={() => handleApiCall("section4")}
                 disabled={sections.section4.loading}
               >
                 {sections.section4.loading ? (
                   <div className="w-4 h-4 border-2 border-slate-300 border-t-slate-600 rounded-full animate-spin" />
                 ) : (
-                  <ArrowRight className="h-4 w-4" />
+                  <>
+                    응답 가져오기
+                    <ArrowRight className="h-4 w-4" />
+                  </>
                 )}
               </Button>
             </CardHeader>
@@ -288,5 +353,5 @@ export default function MainDashboard() {
         </div>
       </div>
     </div>
-  )
+  );
 }
